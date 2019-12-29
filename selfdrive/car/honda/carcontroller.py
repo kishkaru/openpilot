@@ -6,9 +6,10 @@ from selfdrive.car import create_gas_command
 from selfdrive.car.honda import hondacan
 from selfdrive.car.honda.values import AH, CruiseButtons, CAR
 from selfdrive.can.packer import CANPacker
-from selfdrive.kegman_conf import kegman_conf
+from selfdrive.kegman_conf import KegmanConf
 
-kegman = kegman_conf()
+
+kegman = KegmanConf()
 
 
 def actuator_hystereses(brake, braking, brake_steady, v_ego, car_fingerprint):
