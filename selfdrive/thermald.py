@@ -17,8 +17,9 @@ from selfdrive.swaglog import cloudlog
 import cereal.messaging as messaging
 from selfdrive.loggerd.config import get_available_percent
 from selfdrive.pandad import get_expected_signature
-from selfdrive.kegman_conf import kegman_conf
-kegman = kegman_conf()
+from selfdrive.kegman_conf import KegmanConf
+
+kegman = KegmanConf()
 
 FW_SIGNATURE = get_expected_signature()
 
