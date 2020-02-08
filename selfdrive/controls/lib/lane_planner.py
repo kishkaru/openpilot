@@ -5,7 +5,7 @@ from cereal import log
 
 
 kegman = KegmanConf()
-CAMERA_OFFSET = float(kegman.conf['cameraOffset'])  # m from center car to camera
+CAMERA_OFFSET = 0.00
 
 #zorrobyte
 def mean(numbers): 
