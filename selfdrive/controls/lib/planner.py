@@ -13,7 +13,7 @@ from selfdrive.controls.lib.speed_smoother import speed_smoother
 from selfdrive.controls.lib.longcontrol import LongCtrlState, MIN_CAN_SPEED
 from selfdrive.controls.lib.fcw import FCWChecker
 from selfdrive.controls.lib.long_mpc import LongitudinalMpc
-from selfdrive.kegman_conf import kegman_conf
+from selfdrive.kegman_conf import KegmanConf
 
 
 MAX_SPEED = 255.0
@@ -87,7 +87,7 @@ class Planner():
     self.path_x = np.arange(192)
 
     self.params = Params()
-    self.kegman = kegman_conf()
+    self.kegman = KegmanConf()
     self.mpc_frame = 0
     self.first_loop = True
 
@@ -135,7 +135,7 @@ class Planner():
     following = lead_1.status and lead_1.dRel < 45.0 and lead_1.vLeadK > v_ego and lead_1.aLeadK > 0.0
 
     if self.mpc_frame % 1000 == 0:
-      self.kegman = kegman_conf()
+      self.kegman = KegmanConf()
       self.mpc_frame = 0
       
     self.mpc_frame += 1
