@@ -64,7 +64,7 @@ class CarState(CarStateBase):
       ret.cruiseState.available = bool(pt_cp.vl["ECMEngineStatus"]['CruiseMainOn'])
       ret.espDisabled = pt_cp.vl["ESPStatus"]['TractionControlOn'] != 1
       self.pcm_acc_status = pt_cp.vl["AcceleratorPedal2"]['CruiseState']
-      if self.car_fingerprint == CAR.VOLT:
+      if self.car_fingerprint == CAR.VOLT or self.car_fingerprint == CAR.BOLT_EV:
         regen_pressed = bool(pt_cp.vl["EBCMRegenPaddle"]['RegenPaddle'])
       else:
         regen_pressed = False
@@ -105,7 +105,7 @@ class CarState(CarStateBase):
       ("LKATorqueDeliveredStatus", "PSCMStatus", 0),
     ]
 
-    if CP.carFingerprint == CAR.VOLT:
+    if CP.carFingerprint == CAR.VOLT or CP.carFingerprint == CAR.BOLT_EV:
       signals += [
         ("RegenPaddle", "EBCMRegenPaddle", 0),
       ]
