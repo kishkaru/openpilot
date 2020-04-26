@@ -159,53 +159,53 @@ class PathPlanner():
     if not active or self.lane_change_timer > 10.0:
       self.lane_change_state = LaneChangeState.off
       self.pre_lane_change_timer = 0.0
-    else:
-      if sm['carState'].leftBlinker:
-        lane_change_direction = LaneChangeDirection.left
-        self.pre_lane_change_timer += DT_MDL
-      elif sm['carState'].rightBlinker:
-        lane_change_direction = LaneChangeDirection.right
-        self.pre_lane_change_timer += DT_MDL
-      else:
-        self.pre_lane_change_timer = 0.0
-
-      if self.alc_nudge_less and self.pre_lane_change_timer > self.alc_timer:
-        torque_applied = True
-      else:
-        if lane_change_direction == LaneChangeDirection.left:
-          torque_applied = sm['carState'].steeringTorque > 0 and sm['carState'].steeringPressed
-        else:
-          torque_applied = sm['carState'].steeringTorque < 0 and sm['carState'].steeringPressed
-        
-
-      lane_change_prob = self.LP.l_lane_change_prob + self.LP.r_lane_change_prob
-
-      if self.lane_change_state == LaneChangeState.off and one_blinker and not self.prev_one_blinker:
-        self.lane_change_state = LaneChangeState.preLaneChange
-        self.lane_change_ll_prob = 1.0
-
-      # pre
-      elif self.lane_change_state == LaneChangeState.preLaneChange and not one_blinker:
-        self.lane_change_state = LaneChangeState.off
-      elif self.lane_change_state == LaneChangeState.preLaneChange and torque_applied:
-        self.lane_change_state = LaneChangeState.laneChangeStarting
-
-      # starting
-      elif self.lane_change_state == LaneChangeState.laneChangeStarting:
-        # fade out lanelines over 1s
-        self.lane_change_ll_prob = max(self.lane_change_ll_prob - DT_MDL, 0.0)
-        # 98% certainty
-        if lane_change_prob < 0.02 and self.lane_change_ll_prob < 0.01:
-          self.lane_change_state = LaneChangeState.laneChangeFinishing
-
-      # finishing
-      elif self.lane_change_state == LaneChangeState.laneChangeFinishing:
-        # fade in laneline over 1s
-        self.lane_change_ll_prob = min(self.lane_change_ll_prob + DT_MDL, 1.0)
-        if one_blinker and self.lane_change_ll_prob > 0.99:
-          self.lane_change_state = LaneChangeState.preLaneChange
-        elif self.lane_change_ll_prob > 0.99:
-          self.lane_change_state = LaneChangeState.off
+    # else:
+    #   if sm['carState'].leftBlinker:
+    #     lane_change_direction = LaneChangeDirection.left
+    #     self.pre_lane_change_timer += DT_MDL
+    #   elif sm['carState'].rightBlinker:
+    #     lane_change_direction = LaneChangeDirection.right
+    #     self.pre_lane_change_timer += DT_MDL
+    #   else:
+    #     self.pre_lane_change_timer = 0.0
+    #
+    #   if self.alc_nudge_less and self.pre_lane_change_timer > self.alc_timer:
+    #     torque_applied = True
+    #   else:
+    #     if lane_change_direction == LaneChangeDirection.left:
+    #       torque_applied = sm['carState'].steeringTorque > 0 and sm['carState'].steeringPressed
+    #     else:
+    #       torque_applied = sm['carState'].steeringTorque < 0 and sm['carState'].steeringPressed
+    #
+    #
+    #   lane_change_prob = self.LP.l_lane_change_prob + self.LP.r_lane_change_prob
+    #
+    #   if self.lane_change_state == LaneChangeState.off and one_blinker and not self.prev_one_blinker:
+    #     self.lane_change_state = LaneChangeState.preLaneChange
+    #     self.lane_change_ll_prob = 1.0
+    #
+    #   # pre
+    #   elif self.lane_change_state == LaneChangeState.preLaneChange and not one_blinker:
+    #     self.lane_change_state = LaneChangeState.off
+    #   elif self.lane_change_state == LaneChangeState.preLaneChange and torque_applied:
+    #     self.lane_change_state = LaneChangeState.laneChangeStarting
+    #
+    #   # starting
+    #   elif self.lane_change_state == LaneChangeState.laneChangeStarting:
+    #     # fade out lanelines over 1s
+    #     self.lane_change_ll_prob = max(self.lane_change_ll_prob - DT_MDL, 0.0)
+    #     # 98% certainty
+    #     if lane_change_prob < 0.02 and self.lane_change_ll_prob < 0.01:
+    #       self.lane_change_state = LaneChangeState.laneChangeFinishing
+    #
+    #   # finishing
+    #   elif self.lane_change_state == LaneChangeState.laneChangeFinishing:
+    #     # fade in laneline over 1s
+    #     self.lane_change_ll_prob = min(self.lane_change_ll_prob + DT_MDL, 1.0)
+    #     if one_blinker and self.lane_change_ll_prob > 0.99:
+    #       self.lane_change_state = LaneChangeState.preLaneChange
+    #     elif self.lane_change_ll_prob > 0.99:
+    #       self.lane_change_state = LaneChangeState.off
 
     if self.lane_change_state in [LaneChangeState.off, LaneChangeState.preLaneChange]:
       self.lane_change_timer = 0.0
