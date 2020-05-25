@@ -197,8 +197,9 @@ class CarInterface(CarInterfaceBase):
       events.append(create_event('parkBrake', [ET.NO_ENTRY, ET.USER_DISABLE]))
     if ret.cruiseState.standstill:
       events.append(create_event('resumeRequired', [ET.WARNING]))
-    if self.CS.pcm_acc_status == AccState.FAULTED:
-      events.append(create_event('controlsFailed', [ET.NO_ENTRY, ET.IMMEDIATE_DISABLE]))
+    # This alert is disabled for auto-resume to work
+    # if self.CS.pcm_acc_status == AccState.FAULTED:
+    #   events.append(create_event('controlsFailed', [ET.NO_ENTRY, ET.IMMEDIATE_DISABLE]))
 
     # handle button presses
     for b in ret.buttonEvents:
