@@ -35,18 +35,16 @@ def create_gas_regen_command(packer, bus, throttle, idx, acc_engaged, at_full_st
   return packer.make_can_msg("ASCMGasRegenCmd", bus, values)
 
 def create_friction_brake_command(packer, bus, apply_brake, idx, near_stop, at_full_stop):
-
-  if apply_brake == 0:
-    mode = 0x1
-  else:
+  # Default: mode when not applying any brakes
+  mode = 0x1
+  # Mode when brake application requested
+  if apply_brake > 0:
     mode = 0xa
-
+  # Slowing down to crawl
+  if near_stop:
+    mode = 0xb
   if at_full_stop:
     mode = 0xd
-    # TODO: this is to have GM bringing the car to complete stop,
-    # but currently it conflicts with OP controls, so turned off.
-    #elif near_stop:
-    #  mode = 0xb
 
   brake = (0x1000 - apply_brake) & 0xfff
   checksum = (0x10000 - (mode << 12) - brake - idx) & 0xffff
