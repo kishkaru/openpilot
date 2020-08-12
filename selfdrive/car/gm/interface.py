@@ -43,7 +43,8 @@ class CarInterface(CarInterfaceBase):
 
     if candidate == CAR.VOLT:
       # supports stop and go, but initial engage must be above 18mph (which include conservatism)
-      ret.minEnableSpeed = 18 * CV.MPH_TO_MS
+      # 2018 Can set/resume from 0mph
+      ret.minEnableSpeed = -1.
       ret.mass = 1607. + STD_CARGO_KG
       ret.wheelbase = 2.69
       ret.steerRatio = 15.7
@@ -157,8 +158,8 @@ class CarInterface(CarInterfaceBase):
       events.add(EventName.resumeRequired)
     if self.CS.pcm_acc_status == AccState.FAULTED:
       events.add(EventName.controlsFailed)
-    if ret.vEgo < self.CP.minSteerSpeed:
-      events.add(car.CarEvent.EventName.belowSteerSpeed)
+    #if ret.vEgo < self.CP.minSteerSpeed:
+    #  events.add(car.CarEvent.EventName.belowSteerSpeed)
 
     # handle button presses
     for b in ret.buttonEvents:
