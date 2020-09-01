@@ -5,7 +5,8 @@ from cereal import car
 # kph
 V_CRUISE_MAX = 144
 V_CRUISE_MIN = 8
-V_CRUISE_DELTA = 8
+# Change +/- speed to be 1mph (default Bolt EV cruise)
+V_CRUISE_DELTA = 2
 V_CRUISE_ENABLE_MIN = 40
 
 
