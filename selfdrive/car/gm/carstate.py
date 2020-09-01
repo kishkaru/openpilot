@@ -59,7 +59,7 @@ class CarState(CarStateBase):
 
     ret.brakePressed = ret.brake > 1e-5
     # Regen braking is braking
-    if self.car_fingerprint == CAR.VOLT:
+    if self.car_fingerprint == CAR.VOLT or self.car_fingerprint == CAR.BOLT_EV:
       ret.brakePressed = ret.brakePressed or bool(pt_cp.vl["EBCMRegenPaddle"]['RegenPaddle'])
 
     ret.cruiseState.enabled = self.pcm_acc_status != AccState.OFF
@@ -100,7 +100,7 @@ class CarState(CarStateBase):
       ("CruiseMainOn", "ECMEngineStatus", 0),
     ]
 
-    if CP.carFingerprint == CAR.VOLT:
+    if CP.carFingerprint == CAR.VOLT or CP.carFingerprint == CAR.BOLT_EV:
       signals += [
         ("RegenPaddle", "EBCMRegenPaddle", 0),
       ]

@@ -14,7 +14,7 @@ EventName = car.CarEvent.EventName
 #  We recommend that you do not change these numbers from the defaults.
 # ******************************************************************************************
 
-_AWARENESS_TIME = 35.  # passive wheel touch total timeout
+_AWARENESS_TIME = 900.  # 15 minute limit without user touching steering wheels make the car enter a terminal status
 _AWARENESS_PRE_TIME_TILL_TERMINAL = 7.
 _AWARENESS_PROMPT_TIME_TILL_TERMINAL = 5.
 _DISTRACTED_TIME = 11.
