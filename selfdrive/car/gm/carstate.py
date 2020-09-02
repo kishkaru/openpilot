@@ -68,6 +68,7 @@ class CarState(CarStateBase):
     # 0 - inactive, 1 - active, 2 - temporary limited, 3 - failed
     self.lkas_status = pt_cp.vl["PSCMStatus"]['LKATorqueDeliveredStatus']
     ret.steerWarning = self.lkas_status not in [0, 1]
+    self.steer_not_allowed = self.lkas_status not in [0, 1]
 
     return ret
 
